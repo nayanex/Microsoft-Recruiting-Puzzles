@@ -55,13 +55,13 @@ class Sentinel_DLL:
         self.sentinel.next = self.sentinel
         self.sentinel.prev = self.sentinel
 
-    # Insert a new node with data after node x.
+    # Insert a new node with data after node.
     def insert_after(self, node, new_node):
         # Fix up the links in the new node.
         new_node.prev = node
         new_node.next = node.next
 
-        # The new node follows x.
+        # The new node follows node.
         node.next = new_node
 
         # And it's the previous node of its next node.
@@ -82,12 +82,52 @@ class Sentinel_DLL:
     def prepend(self, new_node):
         self.insert_after(self.sentinel, new_node)
 
-    # Delete node x from the list.
+    # Delete node from the list.
     def delete(self, node):
-        # Splice out node x by making its next and previous
+        # Splice out node by making its next and previous
         # reference each other.
         node.prev.next = node.next
         node.next.prev = node.prev       
 ```
 
+## Approach 2: Ordered dictionary
 
+We're asked to implement the structure which provides the following operations in O(1) time :
+
+* Get the key / Check if the key exists
+* Put the key
+* Delete the first added key
+
+The first two operations in O(1) time are provided by the standard hashmap, and the last one - by linked list.
+
+> There is a structure called **ordered dictionary**, it combines behind both hashmap and linked list. In Python this structure is called **OrderedDict** and in Java **LinkedHashMap**.
+
+```python
+# Simpler Solution
+# https://docs.python.org/3/library/collections.html
+from collections import OrderedDict
+class LRUCache(OrderedDict):
+    def __init__(self, capacity):
+        self.capacity = capacity
+
+    def get(self, key):
+        if key not in self:
+            return - 1
+        
+        self.move_to_end(key)
+        return self[key]
+
+    def put(self, key, value):
+        if key in self:
+            # The item is moved to the right end if last is true (the default) or to the beginning if last is false
+            self.move_to_end(key)
+        self[key] = value
+        if len(self) > self.capacity:
+            # The pairs are returned in LIFO order if last is true or FIFO order if false
+            self.popitem(last=False)
+
+# Your LRUCache object will be instantiated and called as such:
+# obj = LRUCache(capacity)
+# param_1 = obj.get(key)
+# obj.put(key,value)
+```
