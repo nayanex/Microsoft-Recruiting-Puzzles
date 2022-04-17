@@ -30,4 +30,4 @@ class Solution:
 
 ## Intuition
 
-![Complexity Analysis](img/search-suggestions-system.png)
+![Complexity Analysis](img/complexity-analysis.png)
