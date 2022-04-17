@@ -7,7 +7,7 @@ class Solution:
     def reorderLogFiles(self, logs: List[str]) -> List[str]:
 
         def get_key(log):
-            _id, rest = log.split(" ", maxsplit=1)
+            _id, rest = log.split(maxsplit=1)
             return (0, rest, _id) if rest[0].isalpha() else (1, )
 
         return sorted(logs, key=get_key)  
@@ -21,7 +21,7 @@ Rather than defining pairwise relationships among all elements in a collection, 
 
 To illustrate the idea, let us first define a Student object as follows, which has three properties: **name**, **grade**, **age**.
 
-```
+```python
 class Student:
     def __init__(self, name, grade, age):
         self.name = name
@@ -95,3 +95,39 @@ First, we need `O(M⋅N)` space to keep the keys for the log.
 In addition, the worst space complexity of the **Timsort** algorithm is `O(N)`, assuming that the space for each element is O(1). Hence we would need `O(M⋅N)` space to hold the intermediate values for sorting.
 
 In total, the overall space complexity of the algorithm is `O(M⋅N+M⋅N)=O(M⋅N)`.
+
+# [Similar Problem in HackerRank](https://www.hackerrank.com/challenges/ctci-comparator-sorting/problem)
+
+```python
+from functools import cmp_to_key
+class Player:
+    def __init__(self, name, score):
+        self.name = name
+        self.score = score
+    def __repr__(self):
+        pass
+        
+    @staticmethod
+    def comparator(a, b):
+        if a.score > b.score:
+            return -1
+        if a.score < b.score:
+            return 1
+        if a.name > b.name:
+            return 1
+        if a.name < b.name:
+            return -1
+        return 0
+
+n = int(input())
+data = []
+for i in range(n):
+    name, score = input().split()
+    score = int(score)
+    player = Player(name, score)
+    data.append(player)
+    
+data = sorted(data, key=cmp_to_key(Player.comparator))
+for i in data:
+    print(i.name, i.score)
+```
