@@ -352,3 +352,49 @@ class Solution:
         return False
 ```
 
+This approach gives us a time complexity of *O(n)* and a space complexity of *O(1)*, where `n` is the number of nodes in the linked list. Note that this problem can also be solved using hashing, although it would require *O(n)* space.
+
+The hashing solution: if you continuously iterate using the `next` pointer, there are two possibilities:
+
+1. If the linked list doesn't have a cycle, you will eventually reach `null` and finish.
+2. If the linked list has a cycle, you will eventually visit a node twice. We can use a set to detect this.
+
+```python
+class Solution:
+    def hasCycle(self, head: Optional[ListNode]) -> bool:
+        seen = set()
+        while head:
+            if head in seen:
+                return True
+            seen.add(head)
+            head = head.next
+        return False
+```
+
+This solution is added for the sake of completeness - the first one is better as it uses less space.
+
+
+> Example 3: Given the head of a linked list and an integer k, return the kth node from the end.
+> For example, given the linked list that represents `1 -> 2 -> 3 -> 4 -> 5` and `k = 2`, return the node with value `4`, as it is the 2nd node from the end.
+
+This problem is very similar to the first example. Again, we could just convert the list to an array, or we could iterate through once to find the length and then iterate again once we know the length, but there is a more elegant solution.
+
+If we separate the two pointers by a gap of `k`, and then move them at the same speed, they will always be `k` apart. When the fast pointer (the one further ahead) reaches the end, then the slow pointer must be at the desired node, since it is `k` nodes behind.
+
+```python
+def find_node(head, k):
+    slow = head
+    fast = head
+    for _ in range(k):
+        fast = fast.next
+    
+    while fast:
+        slow = slow.next
+        fast = fast.next
+    
+    return slow
+```
+
+For the same reasons as in the first example, the time complexity of this algorithm is 
+*O(n)* and the space complexity is *O(1)*, where `n` is the number of nodes in the linked list.
+
