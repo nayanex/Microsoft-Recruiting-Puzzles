@@ -23,3 +23,30 @@ class Solution:
                 
         return head
 ```
+
+
+prev = null
+curr = head
+
+nextNode = curr.next (temporary variable, to point to the next node before changing any of the other pointers)
+curr.next = prev (switch the direction of the arrow)
+prev = curr
+curr = nextNode
+
+nextNode = curr.next
+curr.next = prev (switch the direction of the arrow)
+prev = curr
+curr = nextNode
+
+nextNode = curr.next
+curr.next = prev (switch the direction of the arrow)
+prev = curr
+curr = nextNode
+
+nextNode = curr.next (null)
+curr.next = prev (switch the direction of the arrow)
+prev = curr
+curr = nextNode (null)
+
+
+Failed to Schedule Interview Sorry, something went wrong
